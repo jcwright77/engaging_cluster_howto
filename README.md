@@ -3,9 +3,10 @@ A brief introduction to the engaging cluster for the NSE and PSFC groups. Assort
 
 # Abstract
 
+<img style="float: left; width:300px;" src="dt-common-streams-streamserver-cls_.jpg" width="300" align="left"/>
 The Massachusetts Green Energy High Performance Computing Center
 (MGHPCC) in Holyoke, MA is 100 miles from MIT campus connected
-by a xx fiber. Completed in November 2012, the 90, 000 square
+by formerly dark fiber (10Gb). Completed in November 2012, the 90, 000 square
 foot, 15 megawatt facility is located on an 8.6 acre former
 industrial site just a few blocks from City Hall. University
 partners include B.U., NorthEaster, Harvard, UMass and MIT.
@@ -15,22 +16,24 @@ multi-departmental compute cluster in the MGHPCC facility. NSE
 and the PSFC together have 136 nodes in the cluster. We will
 discuss the MGHPCC and how it came to be, what it provides and
 what resources are available to members of the NSE and PSFC
-programs. The presentation will be followed by a live demo
-session demonstrating some of the basic tasks involved in using
-the new subsystem. Topics covered including how to log in, how
-to bring up remote applications, using git, etc.
+programs. The presentation will be followed by a live demo of
+the basic tasks involved in using the new subsystem. Topics
+covered including how to log in, how to bring up remote
+applications, using git, compilings, runnning jobs in the batch
+system.
 
-![MGHPCC](./dt-common-streams-streamserver-cls\_.jpg)
-
+  These slides, related source code and recipes may be found at
+  github repository https://github.com/jcwright77/engaging_cluster_howto.git 
 
 
 # The engaging system and the nse and psfc nodes
-
+<img style="float: left; width:300px;" src="MGHPCC_DSC00498.JPG" width="300" align="right"/>
 -   100+32+4 nodes, 4352 cores
     Centos 7 , 2x16 cores Intel Xeon 2.1 GHz, 128 GB RAM
 -   Nodes available in the `sched_any_quicktest` partition
     Centos 6 ,2x8 cores Intel Xeon 2.0 GHz, 64 GB RAM
 -   The remaining system is Centos 6 as well.
+
 
 # Getting an account
 
@@ -120,7 +123,7 @@ Module names follow a convention of `software/version`
 
 A research group can create their own set of modules and
 expose them to uses with `module add`. On engaging, this is
-done in `/home/software/<group/`. This can also be done in a
+done in `/home/software/<group>/`. This can also be done in a
 user's own home directory.
 
 # Running jobs
