@@ -100,7 +100,7 @@ your ssh public key.
     -   winSCP (windows) : specify your key for your engaging connection in `SSH > Authentication page` of advanced setup. Uses `.ppk` putty key format. Generate a `ppk` format key from your private ssh key with [PuttyGen](https://winscp.net/eng/docs/ui_puttygen).
     <img  src="winscp_ssh.jpg" width="300"/>
     - SecureCRT (windows) : **Recommended.** supports file transfers with a session. type `rz <RETURN>` to bring up a dialog to upload files. Can also drag-and-drop! Select Z-modem transfer in both cases. `sz <args>` to transer files from engaging to your desktop.
-    
+       <img  src="secure_crt_key.png" width="300"/>
 # Other methods (not recommended at this time)
     
     -   cifs (windows): Not available at this time. possible but not up as a service. brings in
@@ -266,7 +266,7 @@ mpirun ./cpi
 -   Dropbox
 -   julia
 
-# Log in use x2go
+# Log in using x2go
 x2go uses your ssh keys to give you a remote desktop on the engaging cluster.
  <img  src="x2go.png" />
 
