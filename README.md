@@ -38,29 +38,27 @@ system.
 # Getting an account
 
 Account access is via ssh keys. You may provide your own or use
-an ssh key pair generated for you.
+an ssh key pair generated for you. To request and account, 
 
-Visit <https://eofe1.mit.edu/request_account>
+visit <https://eofe1.mit.edu/request_account>
 
-select mit\_nse, mit\_emilio\_b, or mit\_psfc group. Follow instructions to get or specify
+select mit\_nse, mit\_emilio\_b, or mit\_psfc group as appropriate. Follow instructions to get or specify
 your ssh public key.
 
 # Logging in.
 
--   ssh (all): ssh is included in linux as osx distributions. 
+-   ssh (all): ssh is included in linux and osx distributions. 
     
     It is available in the bash shell under Windows 10 after
     enabling WSL, but in beta and seems to only support DSS(.dsa)
-    keys presently (engaging issues rsa keys) . 
+    keys presently (engaging issues rsa keys). 
     
-    Can do X11 forwarding for remote GUI usage. X11 usage requires
+    You can do X11 forwarding for remote GUI usage. X11 usage requires
     XQuartz under OSX or [X-Win32](http://kb.mit.edu/confluence/pages/viewpage.action?pageId%3D148603332) under Windows.
 
 -   **[SecureCRT](http://kb.mit.edu/confluence/display/istcontrib/SecureCRT%2B%2Band%2BSecureFX%2B%2Bfor%2BWindows%2B-%2BInstallation%2BInstructions) (windows):** Windows ssh terminal with port forwarding
--   **putty (windows):** Windows ssh terminal with port forwarding
--   **SecureShell:** 
 -   **[x2go](http://wiki.x2go.org/doku.php) (all):** remote desktop access
--   **[XWIN32](http://www.starnet.com/xwin32/):** X11 emulator also supports ssh connections
+-   **[XWIN32](http://www.starnet.com/xwin32/):** X11 emulator that also supports ssh connections
     Uses same `ppk` format for keys as putty.
     See IS&T for the[ license key](https://downloads.mit.edu/released/xwin32/xwin32-2014/xwin32-2014readme2016.txt). Make sure that you get
     release 53 required for working ssh key
@@ -84,32 +82,39 @@ your ssh public key.
     
     `/home/<username>` 100 GB quota
 
--   parallel filesystem. Run you parallel codes here. note the
+-   parallel filesystem. Run your parallel codes here. Note the
     name. 
     
-    lustre : /nobackup/<username>
+    lustre : /nobackup1/<username>
 -   file transfers
-    -   scp ('nix)
+    -   scp ('nix) : `scp localfile.txt <username>@eofe7.mit.edu:local/relative/path`
     
-    -   sftp ('nix)
+    -   sftp ('nix) : `sftp <username>@eofe7.mit.edu` to get prompt.
     
-    -   sshfs ('nix)
+                      `sftp> ?` to get help. `put localfile`
     
-    -   winSCP (windows)
+    -   sshfs ('nix) : `sshfs <username>@eofe7.mit.edu local_empty_dir:`
     
-    -   cifs (windows): possible but not up as a service. brings in
+    Creates a link to remote files in to an local empty folder. After the command, your remote files are accessible for editting or copying to with normal local file operations (eg `cp`, `mv`, viewing and editting)
+    
+    -   winSCP (windows) : specify your key for your engaging connection in `SSH > Authentication page` of advanced setup. Uses `.ppk` putty key format. Generate a `ppk` format key from your private ssh key with [PuttyGen](https://winscp.net/eng/docs/ui_puttygen).
+    <img  src="winscp_ssh.jpg" width="300"/>
+    - SecureCRT (windows) : **Recommended.** supports file transfers with a session. type `rz <RETURN>` to bring up a dialog to upload files. Can also drag-and-drop! Select Z-modem transfer in both cases. `sz <args>` to transer files from engaging to your desktop.
+    
+# Other methods (not recommended at this time)
+    
+    -   cifs (windows): Not available at this time. possible but not up as a service. brings in
         username and domain mapping issues.
     
-    -   x2go (all platforms) ::buggy, requires `fuse` membership
+    -   x2go (all platforms): Not recommended at this time. buggy, requires `fuse` membership
     
-    -   bash under windows (WSL available with windows 10)
-        enables scp, sshfs. beta version only appears to work with
-        dsa keys.
+    -   bash under windows (WSL available with windows 10): for power users,
+        enables scp, sshfs. Requires activation of developer mode.
 
 # Finding software with Environment Modules
 
 Provide a clean way of managing multiple compiler/MPI
-combinations, software version and dependencies. They modify
+combinations, software versions and dependencies. Modules modify
 search paths and other environmental variables in a user's
 shell so the executables and libraries associated with a
 module are found.
@@ -142,13 +147,16 @@ user's own home directory.
     
         srun -p sb.q -I -N 1 -c 1 --pty -t 0-00:05 /bin/bash
         salloc -N 1 -n 16 -p sched_any_quicktest --time=0:15:00 --exclusive
-    
+        #x11 forwarding to a specific node, may take a moment to first load
+        srun -w node552 -N 1 -n 32 -p sched_mit_psfc --time=1:00:00 --x11=first --pty /bin/bash 
+        
     where `sb.q` is the partition you want to use. Note quicktest
     has a 15min limit.
--   Other trivia
-    -   can ssh to a node if you have a job using it.
     
-    -   web pages in ~/public\_html appear as <http://engaging-web.mit.edu/~jcwright>
+-   Other trivia
+    -   you can only ssh to a node if you have a job using it.
+    
+    -   web pages in `$HOME/public\_html` appear as http://engaging-web.mit.edu/~theuser
 
 # Demos
 
