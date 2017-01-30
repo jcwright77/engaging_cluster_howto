@@ -94,8 +94,8 @@ your ssh public key.
                       `sftp> ?` to get help. `put localfile`
     
     -   sshfs ('nix) : `sshfs <username>@eofe7.mit.edu local_empty_dir:`
-    
-    Creates a link to remote files in to an local empty folder. After the command, your remote files are accessible for editting or copying to with normal local file operations (eg `cp`, `mv`, viewing and editting)
+            Creates a link to remote files in to an local empty folder. After the command, your remote files are accessible for 
+            editting or copying to with normal local file operations (eg `cp`, `mv`, viewing and editting)
     
     -   winSCP (windows) : specify your key for your engaging connection in `SSH > Authentication page` of advanced setup. Uses `.ppk` putty key format. Generate a `ppk` format key from your private ssh key with [PuttyGen](https://winscp.net/eng/docs/ui_puttygen).
     <img  src="winscp_ssh.jpg" width="300"/>
@@ -106,7 +106,7 @@ your ssh public key.
     -   cifs (windows): Not available at this time. possible but not up as a service. brings in
         username and domain mapping issues.
     
-    -   x2go (all platforms): Not recommended at this time. buggy, requires `fuse` membership
+    -   x2go (all platforms): Not recommended at this time for file transfers. buggy, requires `fuse` group membership on server.
     
     -   bash under windows (WSL available with windows 10): for power users,
         enables scp, sshfs. Requires activation of developer mode.
@@ -123,37 +123,128 @@ module are found.
 -   **`module add/unload`:** add/remove a module from a user's environment
 -   **`module list`:** list what modules are loaded
 -   **`module purge`:** remove all loaded modules
+-   **`module use =path=`:** add a new search path to modules
 
 Module names follow a convention of `software/version`
+```
+[jcwright@eofe7 ~]$ module use /home/software/psfc/modulefiles/
+[jcwright@eofe7 ~]$ module avail
 
+---------------------------------- /home/software/psfc/modulefiles/ ------------------------------------
+psfc/atlas/gcc-4.8.4/3.10.3      psfc/fftw/2.1.5        psfc/fftw/3.3.5       psfc/totalview/2016.07.22
+---------------------------------- /home/software/modulefiles ------------------------------------------
+foo/1.0       gcc/4.9.4     gcc/5.4.0     gcc/6.2.0     intel/2017-01 R/3.3.1
+
+...
+```
 A research group can create their own set of modules and
-expose them to uses with `module add`. On engaging, this is
-done in `/home/software/<group>/`. This can also be done in a
-user's own home directory.
+expose them to users with `module use`. On engaging, these are located
+in `/home/software/<group>/` eg `/home/software/psfc/`. This can also be done in a
+user's own home directory for managing different builds of your own software or local installs.
 
-# Running jobs
+# Running jobs in SLURM
 
--   SLURM not PBS
+-   SLURM
     
     The Simple LinUx Resource Manager (SLURM) is
-    used on engaging. If you used the Nersc systems you will be
+    used on engaging to manage job submissions. If you used the NERSC systems you will be
     familiar with it.
+    
 -   Partitions 
     
     Partitions are what job queues are called in
-    SLURM. Jobs submitted to run
--   Example Script
--   Getting an interactive job, one node
+    SLURM. The partitions for the NSE and the PSFC are: 
+    - `sched_mit_psfc`
+    - `sched_mit_nse`
+    - `sched_mit_emilob`
+
+-   Common slurm commands
+    - sbatch :: submit a batch job
+    - squeue -u username :: show a users job status
+    - scancel  :: kill a job
     
-        srun -p sb.q -I -N 1 -c 1 --pty -t 0-00:05 /bin/bash
-        salloc -N 1 -n 16 -p sched_any_quicktest --time=0:15:00 --exclusive
-        #x11 forwarding to a specific node, may take a moment to first load
-        srun -w node552 -N 1 -n 32 -p sched_mit_psfc --time=1:00:00 --x11=first --pty /bin/bash 
+    - scontrol show partition :: list partitions to which you have access
+    - scontrol show jobid `#` :: info on job
+    - sinfo -a :: show all partition names, runtimes and available nodes
+    - salloc :: request a set of nodes in a partition
+      `salloc --gres=gpu:1 -N 1 -n 16 -p sched_system_all --time=1:00:00 --exclusive`
+    - srun :: obtain a job allocation
+    - sacct :: detailed information on usage
+
+    
+    Lots more info 
+
+- Recipes
+  -   Getting an interactive job, one node
+    
+        `srun -p sb.q -I -N 1 -c 1 --pty -t 0-00:05 /bin/bash`
+        where `sb.q` is the partition you want to use. Note quicktest has a 15min limit.
+  -   Request 16 cores on a node
+        `salloc -N 1 -n 16 -p sched_any_quicktest --time=0:15:00 --exclusive`
         
-    where `sb.q` is the partition you want to use. Note quicktest
-    has a 15min limit.
+  -   Request a specific node, 32 cores, and forward X11 for remote display
+        #x11 forwarding to a specific node, may take a moment to first load
+        `srun -w node552 -N 1 -n 32 -p sched_mit_nse --time=1:00:00 --x11=first --pty /bin/bash`
+  - How much memory is or did my job use
+         `sacct -o MaxRSS -j JOBID`
+        
+        
+
+#   Example Script
+```
+#!/bin/bash
+# submit with sbatch cpi_nse.slurm
+# commandline arguments may instead by supplied with #SBATCH <flag> <value>
+# commandline arguments override these values
+
+# Number of nodes
+#SBATCH -N 32
+# Number of processor core (32*32=1024, psfc, mit and emiliob nodes have 32 cores per node)
+#SBATCH -n 1024
+# specify how long your job needs. Be HONEST, it affects how long the job may wait for its turn.
+#SBATCH --time=0:04:00
+# which partition or queue the jobs runs in
+#SBATCH -p sched_mit_nse
+#customize the name of the stderr/stdout file. %j is the job number
+#SBATCH -o cpi_nse-%j.out
+
+#load default system modules
+. /etc/profile.d/modules.sh
+
+#load modules your job depends on. 
+#better here than in your $HOME/.bashrc to make debugging and requirements easier to track.
+#here we are using gcc under MPI mpich
+module load mpich/ge/gcc/64/3.1
+
+#I like to echo the running environment
+env
+
+#Finally, the command to execute. 
+#The job starts in the directory it was submitted from.
+#Note that mpirun knows from SLURM how many processor we have
+#In this case, we use all processes.
+
+mpirun ./cpi
+```
+
+# Other slurm scripts
+   - Serial jobs. Specificy one node and one core. No need for `mpirun` commmand. May specify memory requirement with `#SBATCH --mem X` to ensure sufficient memory for large jobs.
+   
+```
+#!/bin/bash
+#SBATCH -N 1
+#SBATCH -n 1
+#SBATCH --mem 10000  #in MB
+#SBATCH --time=0:04:00
+#SBATCH -p sched_mit_psfc
+#SBATCH -o myjob-%j.out
+
+. /etc/profile.d/modules.sh
+
+./pi_serial
+```
     
--   Other trivia
+#   Other trivia
     -   you can only ssh to a node if you have a job using it.
     
     -   web pages in `$HOME/public\_html` appear as http://engaging-web.mit.edu/~theuser
@@ -175,9 +266,15 @@ user's own home directory.
 -   Dropbox
 -   julia
 
+# Log in use x2g0
+
 # More info
 
+-   gists of examples in these demos and other recipes in this public gists space: https://gist.github.com/jcwright77
+    - [PI serial and parallel programs](https://gist.github.com/jcwright77/a5e1d66886bc17b0f7936466739cc287)
+    - [example slurm batch job](
 -   sloan engaging documentation at [<https://wikis.mit.edu/confluence/display/sloanrc/Engaging+Platform>](https://wikis.mit.edu/confluence/display/sloanrc/Engaging%2BPlatform)
     requires MIT certificates. Info on engaging usage in general
     as well as custom Sloan tools and modules.
 -   PSFC engaging info and local account request <http://www-internal.psfc.mit.edu/computers/cluster/cluster.html>
+-   Harvard info on a similar system at MGHPCC https://rc.fas.harvard.edu/resources/running-jobs/
