@@ -20,7 +20,7 @@ session demonstrating some of the basic tasks involved in using
 the new subsystem. Topics covered including how to log in, how
 to bring up remote applications, using git, etc.
 
-![MGHPCC](./Photos/dt-common-streams-streamserver-cls\_.jpg)
+![MGHPCC](./dt-common-streams-streamserver-cls\_.jpg)
 
 
 
