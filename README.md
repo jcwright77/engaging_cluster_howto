@@ -32,7 +32,7 @@ system.
     Centos 7 , 2x16 cores Intel Xeon 2.1 GHz, 128 GB RAM
 -   Nodes available in the `sched_any_quicktest` partition
     Centos 6 ,2x8 cores Intel Xeon 2.0 GHz, 64 GB RAM
--   The remaining system is Centos 6 as well.
+-   The remaining system is Centos 6.
 
 
 # Getting an account
@@ -142,7 +142,7 @@ expose them to users with `module use`. On engaging, these are located
 in `/home/software/<group>/` eg `/home/software/psfc/`. This can also be done in a
 user's own home directory for managing different builds of your own software or local installs.
 
-# Running jobs in SLURM
+# Running jobs in SLURM [gist](https://gist.github.com/jcwright77/4c64088a67868ef2ecf31319898f0730)
 
 -   SLURM
     
@@ -266,13 +266,25 @@ mpirun ./cpi
 -   Dropbox
 -   julia
 
-# Log in use x2g0
+# Log in use x2go
+x2go uses your ssh keys to give you a remote desktop on the engaging cluster.
+ <img  src="x2go.png" />
+
+# Running a serial and then parallel program from github
+
+# matlab example
+```
+module load mit/matlab
+matlab #for gui
+matlab -nodesktop -nosplash # for commandine
+```
+
 
 # More info
 
 -   gists of examples in these demos and other recipes in this public gists space: https://gist.github.com/jcwright77
     - [PI serial and parallel programs](https://gist.github.com/jcwright77/a5e1d66886bc17b0f7936466739cc287)
-    - [example slurm batch job](
+    - [example slurm batch job](https://gist.github.com/jcwright77/4c64088a67868ef2ecf31319898f0730)
 -   sloan engaging documentation at [<https://wikis.mit.edu/confluence/display/sloanrc/Engaging+Platform>](https://wikis.mit.edu/confluence/display/sloanrc/Engaging%2BPlatform)
     requires MIT certificates. Info on engaging usage in general
     as well as custom Sloan tools and modules.
