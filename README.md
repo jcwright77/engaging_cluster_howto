@@ -19,12 +19,15 @@ what resources are available to members of the NSE and PSFC
 programs. The presentation will be followed by a live demo of
 the basic tasks involved in using the new subsystem. Topics
 covered including how to log in, how to bring up remote
-applications, using git, compilings, runnning jobs in the batch
+applications, using git, compiling, runnning jobs in the batch
 system.
 
   These slides, related source code and recipes may be found at
   github repository https://github.com/jcwright77/engaging_cluster_howto.git 
 
+The author may be contacted at `jcwright@mit.edu`.
+
+Administrative questions should be directect to `engaging-admin@techsquare.com`
 
 # The engaging system and the nse and psfc nodes
 <img style="float: left; width:300px;" src="MGHPCC_DSC00498.JPG" width="300" align="right"/>
@@ -32,11 +35,11 @@ system.
     Centos 7 , 2x16 cores Intel Xeon 2.1 GHz, 128 GB RAM
 -   Nodes available in the `sched_any_quicktest` partition
     Centos 6 ,2x8 cores Intel Xeon 2.0 GHz, 64 GB RAM
--   The remaining system is Centos 6.
+-   The remaining system nodes run Centos 6 and have 16 cores per node.
 
 
 # Getting an account
-
+<img style="float: left; width:300px;" src="eofe1.jpg" width="300" align="left"/>
 Account access is via ssh keys. You may provide your own or use
 an ssh key pair generated for you. To request and account, 
 
@@ -57,11 +60,15 @@ your ssh public key.
     XQuartz under OSX or [X-Win32](http://kb.mit.edu/confluence/pages/viewpage.action?pageId%3D148603332) under Windows.
 
 -   **[SecureCRT](http://kb.mit.edu/confluence/display/istcontrib/SecureCRT%2B%2Band%2BSecureFX%2B%2Bfor%2BWindows%2B-%2BInstallation%2BInstructions) (windows):** Windows ssh terminal with port forwarding
+
 -   **[x2go](http://wiki.x2go.org/doku.php) (all):** remote desktop access
+
+-   **[putty](www.putty.org):** ssh terminal program for windows. Requires transformation of your private key to a `PPK` format using the puttygen program.
+
 -   **[XWIN32](http://www.starnet.com/xwin32/):** X11 emulator that also supports ssh connections
     Uses same `ppk` format for keys as putty.
-    See IS&T for the[ license key](https://downloads.mit.edu/released/xwin32/xwin32-2014/xwin32-2014readme2016.txt). Make sure that you get
-    release 53 required for working ssh key
+    See IS&T for the[ license key](https://downloads.mit.edu/released/xwin32/xwin32-2014/xwin32-2014readme2016.txt). 
+    Make sure that you get release 53 required for working ssh key
     support. IS&T is currently providing release 47. You
     can get the latest release from the [vendor](http://www.starnet.com/xwin32/).
 
@@ -74,7 +81,9 @@ your ssh public key.
      
    + private key part : eg `id_rsa_user`.Linux permissions `chmod 600 id_rsa_user` in `$HOME/.ssh` directory
       
-     This is the key you need on your local machine. On linux in your .ssh directory or specified directly with `ssh -i`. For gui interfaces on windows, this is the key your provide when setting up a session or preparing a key for putty with puttygen.
+     This is the key you need on your local machine. On linux in your .ssh directory or specified directly with `ssh -i`. For gui interfaces on windows, this is the key your provide when setting up a session or preparing a key for putty with puttygen. The private key also includes enough information to generate its matching public key. The converse, of course, computationally prohibitive.
+   
+     For the truly interested, ssh keys use [public key cryptography](https://en.wikipedia.org/wiki/Public-key_cryptography). The basic process is that a message is encrypted with your private key and sent along with other details such as key type, public key and username to the `sshd` server. The server checks for a matching public key in the user's `authorized_keys` file. This public key is used to decrypt the message and if it matches the expected message (including username among other items) then the connect is accepted. Traffic over the connect is also encrypted with the key pair. The public key is actually like a lock shared with someone else to which you keep the key(the private key). This operations works and is asymmetric because the encryption process uses knowledge of the two primes composing a product whereas the decryption process only requires knowing a value that is coprime to the product, this product is available to both the public and private keys (sorry TMI?).
    
 # Working with the file system
 
@@ -93,10 +102,11 @@ your ssh public key.
     
     `/home/<username>` 100 GB quota
 
--   parallel filesystem. Run your parallel codes here. Note the
+-   parallel filesystem.  Run your parallel codes here. Note the
     name. 
     
-    lustre : /nobackup1/<username>
+    lustre : /nobackup1/<username> . 1 PetaByte of storage for engaging
+    
 -   file transfers
     -   scp ('nix) : `scp localfile.txt <username>@eofe7.mit.edu:local/relative/path`
     
@@ -110,7 +120,8 @@ your ssh public key.
     
     -   winSCP (windows) : specify your key for your engaging connection in `SSH > Authentication page` of advanced setup. Uses `.ppk` putty key format. Generate a `ppk` format key from your private ssh key with [PuttyGen](https://winscp.net/eng/docs/ui_puttygen).
     <img  src="winscp_ssh.jpg" width="300"/>
-    - SecureCRT (windows) : **Recommended.** supports file transfers with a session. type `rz <RETURN>` to bring up a dialog to upload files. Can also drag-and-drop! Select Z-modem transfer in both cases. `sz <args>` to transer files from engaging to your desktop.
+    
+    - SecureCRT (windows) : **Recommended.** supports file transfers with a session. type `rz <RETURN>` to bring up a dialog to upload files. Can also drag-and-drop! Select Z-modem transfer in both cases. `sz <args>` to transfer files from engaging to your desktop.
        <img  src="secure_crt_key.png" width="300"/>
        
 # Other methods (not recommended at this time)
@@ -168,7 +179,7 @@ user's own home directory for managing different builds of your own software or 
     SLURM. The partitions for the NSE and the PSFC are: 
     - `sched_mit_psfc`
     - `sched_mit_nse`
-    - `sched_mit_emilob`
+    - `sched_mit_emiliob`
 
 -   Common slurm commands
     - sbatch :: submit a batch job
@@ -255,28 +266,45 @@ mpirun ./cpi
 
 ./pi_serial
 ```
+
+#   How to compile. Sourcecode [gist](https://gist.github.com/jcwright77/a5e1d66886bc17b0f7936466739cc287).
+  - On engaging there are two main compilers supported, `gcc/gfortan (4.9.4, 5.4.0, 6.2.0)` and `intel  17`.
+  - to compile, you would load either gcc or intel modules. Optionally load the associated `MPI` library if compiling parallel programs. Using the mpi compiler command (`mpiifort, mpiicc, mpicc`, etc) automatically links in the required `MPI` libraries.
+  - fortran
+    ```
+    module load intel
+    module load impi #for parallel support
+    ifort -o myprog myprog.f/f90/F90/F
+    #or if parallel
+    mpiifort -o my_par_program my_par_prog.f/f90/F90/F
+    ```
     
+  - C
+    ``
+    module load 
 #   Other trivia
-    -   you can only ssh to a node if you have a job using it.
+  -   you can only ssh to a node if you have a job using it.
     
-    -   web pages in `$HOME/public\_html` appear as http://engaging-web.mit.edu/~theuser
+  -   web pages in `$HOME/public\_html` appear as http://engaging-web.mit.edu/~theuser
 
 # Demos
 
 -   Log in using x2go
     Uses ssh key and passphrase
--   Retrieve demo script from github, edit and run it.
+-   Retrieve demo script and program sources from github, edit and run it.
     Uses git, vim or emacs or gedit, slurm batch system, c and
-    fortran compilers
--   python demo
+    fortran compilers. [gist](https://gist.github.com/jcwright77/a5e1d66886bc17b0f7936466739cc287)
 -   matlab
--   parallel task farm
-    slurm job arrays, multiplexing across nodes (queues)
--   parallel executable, c and fortran pi
--   slurm, restarting jobs for long jobs
--   slurm reservations
 -   Dropbox
 -   julia
+
+The following are not yet present explicitly in the slide deck.
+-   python demo
+-   parallel task farm
+    slurm job arrays, multiplexing across nodes (queues)
+-   slurm, restarting for long jobs
+-   slurm reservations
+
 
 # Log in using x2go
 x2go uses your ssh keys to give you a remote desktop on the engaging cluster. This desktop is also persistent so you close a session and return to it later, even on another device.
@@ -289,7 +317,7 @@ x2go uses your ssh keys to give you a remote desktop on the engaging cluster. Th
 module load mit/matlab
 matlab #for gui
 matlab -nodesktop -nosplash # for commandline
-matlab -nodesktop -nosplash -nodisplay -r "run('/home/user/rest/of/path/mfile.m');" # for a non-interative process, eg a batch script
+matlab -nodesktop -nosplash -nodisplay -r "run('/home/user/rest/of/path/mfile.m');" # for a non-interactive process, eg a batch script
 ```
 
 # julia parallel example
