@@ -369,5 +369,5 @@ ID 1: 0.686332 5
 -   sloan engaging documentation at [<https://wikis.mit.edu/confluence/display/sloanrc/Engaging+Platform>](https://wikis.mit.edu/confluence/display/sloanrc/Engaging%2BPlatform)
     requires MIT certificates. Info on engaging usage in general
     as well as custom Sloan tools and modules.
--   PSFC engaging info and local account request <http://www-internal.psfc.mit.edu/computers/cluster/cluster.html>
+-   PSFC engaging info and local account request <http://computers.psfc.mit.edu/cluster>
 -   Harvard info on a similar system at MGHPCC https://rc.fas.harvard.edu/resources/running-jobs/
