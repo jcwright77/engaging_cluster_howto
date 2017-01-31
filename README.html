@@ -1,0 +1,312 @@
+<h1 id="engaging_cluster_howto">engaging_cluster_howto</h1>
+<p>A brief introduction to the engaging cluster for the NSE and PSFC groups. Assorted recipes and gists.</p>
+<p>These slides, related source code and recipes may be found at<br />
+github repository <a href="https://github.com/jcwright77/engaging_cluster_howto.git" class="uri">https://github.com/jcwright77/engaging_cluster_howto.git</a></p>
+<p>The author may be contacted at <code>jcwright@mit.edu</code>.</p>
+<h1 id="abstract">Abstract</h1>
+<p><img style="float: left; width:300px;" src="dt-common-streams-streamserver-cls_.jpg" width="300" align="left"/><br />
+The Massachusetts Green Energy High Performance Computing Center<br />
+(MGHPCC) in Holyoke, MA is 100 miles from MIT campus connected<br />
+by formerly dark fiber (10Gb). Completed in November 2012, the 90, 000 square<br />
+foot, 15 megawatt facility is located on an 8.6 acre former<br />
+industrial site just a few blocks from City Hall. University<br />
+partners include B.U., NorthEaster, Harvard, UMass and MIT.</p>
+<p>The engaging computer cluster is a large (~500 nodes)<br />
+multi-departmental compute cluster in the MGHPCC facility. NSE<br />
+and the PSFC together have 136 nodes in the cluster. We will<br />
+discuss the MGHPCC and how it came to be, what it provides and<br />
+what resources are available to members of the NSE and PSFC<br />
+programs. The presentation will be followed by a live demo of<br />
+the basic tasks involved in using the new subsystem. Topics<br />
+covered including how to log in, how to bring up remote<br />
+applications, using git, compiling, runnning jobs in the batch<br />
+system.</p>
+<p>Administrative questions should be directect to <code>engaging-admin@techsquare.com</code></p>
+<h1 id="the-engaging-system-and-the-nse-and-psfc-nodes">The engaging system and the nse and psfc nodes</h1>
+<p><img style="float: left; width:300px;" src="MGHPCC_DSC00498.JPG" width="300" align="right"/></p>
+<ul>
+<li><p>100+32+4 nodes, 4352 cores<br />
+Centos 7 , 2x16 cores Intel Xeon 2.1 GHz, 128 GB RAM</p></li>
+<li><p>Nodes available in the <code>sched_any_quicktest</code> partition<br />
+Centos 6 ,2x8 cores Intel Xeon 2.0 GHz, 64 GB RAM</p></li>
+<li><p>The remaining system nodes run Centos 6 and have 16 cores per node.</p></li>
+</ul>
+<h1 id="getting-an-account">Getting an account</h1>
+<p><img style="float: left; width:300px;" src="eofe1.jpg" width="300" align="left"/><br />
+Account access is via ssh keys. You may provide your own or use<br />
+an ssh key pair generated for you. To request and account,</p>
+<p>visit <a href="https://eofe1.mit.edu/request_account" class="uri">https://eofe1.mit.edu/request_account</a></p>
+<p>select mit_nse, mit_emilio_b, or mit_psfc group as appropriate. Follow instructions to get or specify<br />
+your ssh public key.</p>
+<h1 id="logging-in.">Logging in.</h1>
+<ul>
+<li><p>ssh (all): ssh is included in linux and osx distributions.</p>
+<p>It is available in the bash shell under Windows 10 after<br />
+enabling WSL, but in beta and seems to only support DSS(.dsa)<br />
+keys presently (engaging issues rsa keys).</p>
+<p>You can do X11 forwarding for remote GUI usage. X11 usage requires<br />
+XQuartz under OSX or <a href="http://kb.mit.edu/confluence/pages/viewpage.action?pageId%3D148603332">X-Win32</a> under Windows.</p></li>
+<li><p><strong><a href="http://kb.mit.edu/confluence/display/istcontrib/SecureCRT%2B%2Band%2BSecureFX%2B%2Bfor%2BWindows%2B-%2BInstallation%2BInstructions">SecureCRT</a> (windows):</strong> Windows ssh terminal with port forwarding</p></li>
+<li><p><strong><a href="http://wiki.x2go.org/doku.php">x2go</a> (all):</strong> remote desktop access</p></li>
+<li><p><strong><a href="www.putty.org">putty</a>:</strong> ssh terminal program for windows. Requires transformation of your private key to a <code>PPK</code> format using the puttygen program.</p></li>
+<li><p><strong><a href="http://www.starnet.com/xwin32/">XWIN32</a>:</strong> X11 emulator that also supports ssh connections<br />
+Uses same <code>ppk</code> format for keys as putty.<br />
+See IS&amp;T for the<a href="https://downloads.mit.edu/released/xwin32/xwin32-2014/xwin32-2014readme2016.txt">license key</a>.<br />
+Make sure that you get release 53 required for working ssh key<br />
+support. IS&amp;T is currently providing release 47. You<br />
+can get the latest release from the <a href="http://www.starnet.com/xwin32/">vendor</a>.</p></li>
+</ul>
+<h1 id="what-is-an-ssh-key">What is an ssh key?</h1>
+<ul>
+<li>similar to your MIT certificates but you have two parts.</li>
+<li><p>public key part : eg <code>id_rsa_user.pub</code>. Linux permissions <code>chmod 700 id_rsa_user.pub</code> in <code>$HOME/.ssh</code> directory</p>
+<p>This is the key that needs to be on the destination machine. engaging signup does this for you.</p></li>
+<li><p>private key part : eg <code>id_rsa_user</code>.Linux permissions <code>chmod 600 id_rsa_user</code> in <code>$HOME/.ssh</code> directory</p>
+<p>This is the key you need on your local machine. On linux in your .ssh directory or specified directly with <code>ssh -i</code>. For gui interfaces on windows, this is the key your provide when setting up a session or preparing a key for putty with puttygen. The private key also includes enough information to generate its matching public key. The converse, of course, computationally prohibitive.</p>
+<p>For the truly interested, ssh keys use <a href="https://en.wikipedia.org/wiki/Public-key_cryptography">public key cryptography</a>. The basic process is that a message is encrypted with your private key and sent along with other details such as key type, public key and username to the <code>sshd</code> server. The server checks for a matching public key in the user's <code>authorized_keys</code> file. This public key is used to decrypt the message and if it matches the expected message (including username among other items) then the connect is accepted. Traffic over the connect is also encrypted with the key pair. The public key is actually like a lock shared with someone else to which you keep the key(the private key). This operations works and is asymmetric because the encryption process uses knowledge of the two primes composing a product whereas the decryption process only requires knowing a value that is coprime to the product, this product is available to both the public and private keys (sorry TMI?).</p></li>
+</ul>
+<h1 id="working-with-the-file-system">Working with the file system</h1>
+<ul>
+<li>nfs storage. Long term inexpensive storage, expandable.
+<ul>
+<li><p>Group specific, eg:</p>
+<p><code>/net/eofdata-data005/psfclab001/&lt;username&gt;</code> 50 TB</p>
+This volume is automounted so you have to <code>cd</code> into it<br />
+explicitly to see it.</li>
+<li><p>other storage can be used in serial runs : 1TB quota</p>
+<p><code>/pool001/</code></p></li>
+</ul></li>
+<li><p>home directory. Backed up with TSM at MIT.</p>
+<p><code>/home/&lt;username&gt;</code> 100 GB quota</p></li>
+<li><p>parallel filesystem. Run your parallel codes here. Note the<br />
+name.</p>
+<p>lustre : /nobackup1/<username> . 1 PetaByte of storage for engaging</p></li>
+<li>file transfers
+<ul>
+<li><p>scp ('nix) : <code>scp localfile.txt &lt;username&gt;@eofe7.mit.edu:local/relative/path</code></p></li>
+<li><p>sftp ('nix) : <code>sftp &lt;username&gt;@eofe7.mit.edu</code> to get prompt.</p>
+<pre><code>          `sftp&gt; ?` to get help. `put localfile`</code></pre></li>
+<li><p>sshfs ('nix) : <code>sshfs &lt;username&gt;@eofe7.mit.edu local_empty_dir:</code><br />
+Creates a link to remote files in to an local empty folder. After the command, your remote files are accessible for<br />
+editting or copying to with normal local file operations (eg <code>cp</code>, <code>mv</code>, viewing and editting)</p></li>
+<li><p>winSCP (windows) : specify your key for your engaging connection in <code>SSH &gt; Authentication page</code> of advanced setup. Uses <code>.ppk</code> putty key format. Generate a <code>ppk</code> format key from your private ssh key with <a href="https://winscp.net/eng/docs/ui_puttygen">PuttyGen</a>.<br />
+<img  src="winscp_ssh.jpg" width="300"/></p></li>
+<li><p>SecureCRT (windows) : <strong>Recommended.</strong> supports file transfers with a session. type <code>rz &lt;RETURN&gt;</code> to bring up a dialog to upload files. Can also drag-and-drop! Select Z-modem transfer in both cases. <code>sz &lt;args&gt;</code> to transfer files from engaging to your desktop.<br />
+<img  src="secure_crt_key.png" width="300"/></p></li>
+</ul></li>
+</ul>
+<h1 id="other-methods-not-recommended-at-this-time">Other methods (not recommended at this time)</h1>
+<pre><code>-   cifs (windows): Not available at this time. possible but not up as a service. brings in
+    username and domain mapping issues.
+
+-   x2go (all platforms): Not recommended at this time for file transfers. buggy, requires `fuse` group membership on server.
+
+-   bash under windows (WSL available with windows 10): for power users,
+    enables scp, sshfs. Requires activation of developer mode.</code></pre>
+<h1 id="finding-software-with-environment-modules">Finding software with Environment Modules</h1>
+<p>Provide a clean way of managing multiple compiler/MPI<br />
+combinations, software versions and dependencies. Modules modify<br />
+search paths and other environmental variables in a user's<br />
+shell so the executables and libraries associated with a<br />
+module are found.</p>
+<ul>
+<li><strong><code>module avail</code>:</strong> list all modules currently available on the system</li>
+<li><strong><code>module show</code>:</strong> show what environment a module loads</li>
+<li><strong><code>module add/unload</code>:</strong> add/remove a module from a user's environment</li>
+<li><strong><code>module list</code>:</strong> list what modules are loaded</li>
+<li><strong><code>module purge</code>:</strong> remove all loaded modules</li>
+<li><strong><code>module use =path=</code>:</strong> add a new search path to modules</li>
+</ul>
+<p>Module names follow a convention of <code>software/version</code></p>
+<pre><code>[jcwright@eofe7 ~]$ module use /home/software/psfc/modulefiles/
+[jcwright@eofe7 ~]$ module avail
+
+---------------------------------- /home/software/psfc/modulefiles/ ------------------------------------
+psfc/atlas/gcc-4.8.4/3.10.3      psfc/fftw/2.1.5        psfc/fftw/3.3.5       psfc/totalview/2016.07.22
+---------------------------------- /home/software/modulefiles ------------------------------------------
+foo/1.0       gcc/4.9.4     gcc/5.4.0     gcc/6.2.0     intel/2017-01 R/3.3.1
+
+...</code></pre>
+<p>A research group can create their own set of modules and<br />
+expose them to users with <code>module use</code>. On engaging, these are located<br />
+in <code>/home/software/&lt;group&gt;/</code> eg <code>/home/software/psfc/</code>. This can also be done in a<br />
+user's own home directory for managing different builds of your own software or local installs.</p>
+<h1 id="running-jobs-in-slurm-gist">Running jobs in SLURM <a href="https://gist.github.com/jcwright77/4c64088a67868ef2ecf31319898f0730">gist</a></h1>
+<ul>
+<li><p>SLURM</p>
+<p>The Simple LinUx Resource Manager (SLURM) is<br />
+used on engaging to manage job submissions. If you used the NERSC systems you will be<br />
+familiar with it.</p></li>
+<li><p>Partitions</p>
+Partitions are what job queues are called in<br />
+SLURM. The partitions for the NSE and the PSFC are:
+<ul>
+<li><code>sched_mit_psfc</code></li>
+<li><code>sched_mit_nse</code></li>
+<li><code>sched_mit_emiliob</code></li>
+</ul></li>
+<li>Common slurm commands
+<ul>
+<li>sbatch :: submit a batch job</li>
+<li>squeue -u username :: show a users job status</li>
+<li><p>scancel :: kill a job</p></li>
+<li>scontrol show partition :: list partitions to which you have access</li>
+<li>scontrol show jobid <code>#</code> :: info on job</li>
+<li>sinfo -a :: show all partition names, runtimes and available nodes</li>
+<li>salloc :: request a set of nodes in a partition<br />
+<code>salloc --gres=gpu:1 -N 1 -n 16 -p sched_system_all --time=1:00:00 --exclusive</code></li>
+<li>srun :: obtain a job allocation</li>
+<li><p>sacct :: detailed information on usage</p></li>
+</ul>
+<p>Lots more info</p></li>
+<li>Recipes</li>
+<li><p>Getting an interactive job, one node</p>
+<pre><code>`srun -p sb.q -I -N 1 -c 1 --pty -t 0-00:05 /bin/bash`
+where `sb.q` is the partition you want to use. Note quicktest has a 15min limit.</code></pre></li>
+<li><p>Request 16 cores on a node<br />
+<code>salloc -N 1 -n 16 -p sched_any_quicktest --time=0:15:00 --exclusive</code></p></li>
+<li>Request a specific node, 32 cores, and forward X11 for remote display<br />
+#x11 forwarding to a specific node, may take a moment to first load<br />
+<code>srun -w node552 -N 1 -n 32 -p sched_mit_nse --time=1:00:00 --x11=first --pty /bin/bash</code></li>
+<li><p>How much memory is or did my job use<br />
+<code>sacct -o MaxRSS -j JOBID</code></p></li>
+</ul>
+<h1 id="example-script">Example Script</h1>
+<pre><code>#!/bin/bash
+# submit with sbatch cpi_nse.slurm
+# commandline arguments may instead by supplied with #SBATCH &lt;flag&gt; &lt;value&gt;
+# commandline arguments override these values
+
+# Number of nodes
+#SBATCH -N 32
+# Number of processor core (32*32=1024, psfc, mit and emiliob nodes have 32 cores per node)
+#SBATCH -n 1024
+# specify how long your job needs. Be HONEST, it affects how long the job may wait for its turn.
+#SBATCH --time=0:04:00
+# which partition or queue the jobs runs in
+#SBATCH -p sched_mit_nse
+#customize the name of the stderr/stdout file. %j is the job number
+#SBATCH -o cpi_nse-%j.out
+
+#load default system modules
+. /etc/profile.d/modules.sh
+
+#load modules your job depends on. 
+#better here than in your $HOME/.bashrc to make debugging and requirements easier to track.
+#here we are using gcc under MPI mpich
+module load mpich/ge/gcc/64/3.1
+
+#I like to echo the running environment
+env
+
+#Finally, the command to execute. 
+#The job starts in the directory it was submitted from.
+#Note that mpirun knows from SLURM how many processor we have
+#In this case, we use all processes.
+
+mpirun ./cpi</code></pre>
+<h1 id="other-slurm-scripts">Other slurm scripts</h1>
+<ul>
+<li>Serial jobs. Specificy one node and one core. No need for <code>mpirun</code> commmand. May specify memory requirement with <code>#SBATCH --mem X</code> to ensure sufficient memory for large jobs.</li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode sh"><code class="sourceCode bash"><span class="co">#!/bin/bash</span>
+<span class="co">#SBATCH -N 1</span>
+<span class="co">#SBATCH -n 1</span>
+<span class="co">#SBATCH --mem 10000  #in MB</span>
+<span class="co">#SBATCH --time=0:04:00</span>
+<span class="co">#SBATCH -p sched_mit_psfc</span>
+<span class="co">#SBATCH -o myjob-%j.out</span>
+
+<span class="kw">.</span> <span class="kw">/etc/profile.d/modules.sh</span>
+
+<span class="kw">./pi_serial</span></code></pre></div>
+<h1 id="how-to-compile.-sourcecode-gist.">How to compile. Sourcecode <a href="https://gist.github.com/jcwright77/a5e1d66886bc17b0f7936466739cc287">gist</a>.</h1>
+<ul>
+<li>On engaging there are two main compilers supported, <code>gcc/gfortan (4.9.4, 5.4.0, 6.2.0)</code> and <code>intel  17</code>.</li>
+<li>to compile, you would load either gcc or intel modules. Optionally load the associated <code>MPI</code> library if compiling parallel programs. Using the mpi compiler command (<code>mpiifort, mpiicc, mpicc</code>, etc) automatically links in the required <code>MPI</code> libraries.</li>
+<li><p>fortran</p>
+<div class="sourceCode"><pre class="sourceCode sh"><code class="sourceCode bash"><span class="kw">module</span> load intel
+<span class="kw">module</span> load impi <span class="co">#for parallel support</span>
+<span class="kw">ifort</span> -o myprog myprog.f/f90/F90/F
+<span class="co">#or if parallel</span>
+<span class="kw">mpiifort</span> -o my_par_program my_par_prog.f/f90/F90/F</code></pre></div></li>
+<li><p>C</p>
+<div class="sourceCode"><pre class="sourceCode sh"><code class="sourceCode bash"><span class="kw">module</span> load gcc
+<span class="kw">module</span> load  mpich/ge/gcc/64/3.1 <span class="co"># for parallel support</span>
+<span class="kw">gcc</span> -o myprog myprog.c
+<span class="kw">mpicc</span> -o myprog myprog.c/cc <span class="co">#for parallel compilation</span></code></pre></div></li>
+</ul>
+<h1 id="other-trivia">Other trivia</h1>
+<ul>
+<li><p>you can only ssh to a node if you have a job using it.</p></li>
+<li><p>web pages in <code>$HOME/public\_html</code> appear as <a href="http://engaging-web.mit.edu/~theuser" class="uri">http://engaging-web.mit.edu/~theuser</a></p></li>
+</ul>
+<h1 id="demos">Demos</h1>
+<ul>
+<li>Log in using x2go<br />
+Uses ssh key and passphrase</li>
+<li>Retrieve demo script and program sources from github, edit and run it.<br />
+Uses git, vim or emacs or gedit, slurm batch system, c and<br />
+fortran compilers. <a href="https://gist.github.com/jcwright77/a5e1d66886bc17b0f7936466739cc287">gist</a></li>
+<li>matlab</li>
+<li>Dropbox</li>
+<li>julia</li>
+</ul>
+<p>The following are not yet present explicitly in the slide deck.</p>
+<ul>
+<li>python demo</li>
+<li>parallel task farm<br />
+slurm job arrays, multiplexing across nodes (queues)</li>
+<li>slurm, restarting for long jobs</li>
+<li>slurm reservations</li>
+</ul>
+<h1 id="log-in-using-x2go">Log in using x2go</h1>
+<p>x2go uses your ssh keys to give you a remote desktop on the engaging cluster. This desktop is also persistent so you close a session and return to it later, even on another device.<br />
+<img  src="x2go.png" width=600 align='center' /></p>
+<h1 id="running-a-serial-and-then-parallel-program-from-github">Running a serial and then parallel program from github</h1>
+<h1 id="matlab-example">matlab example</h1>
+<pre><code>module load mit/matlab
+matlab #for gui
+matlab -nodesktop -nosplash # for commandline
+matlab -nodesktop -nosplash -nodisplay -r &quot;run(&#39;/home/user/rest/of/path/mfile.m&#39;);&quot; # for a non-interactive process, eg a batch script</code></pre>
+<h1 id="julia-parallel-example">julia parallel example</h1>
+<p><a href="julialang.org">Julia</a> is a parallel interpreted language developed at MIT.</p>
+<pre><code>#load julia
+module load engaging/julia
+
+#request a node
+srun -N 1 -n 32 -p sched_mit_nse --time=1:00:00 --x11=first --pty /bin/bash
+
+#start julia
+julia -j 4
+julia&gt; nprocs()
+5
+julia&gt; workers()                           # Identifiers for the worker processes.
+4-element Array{Int64,1}:
+ 2
+ 3
+ 4
+ 5
+@everywhere println(@sprintf(&quot;ID %d: %f %d&quot;, myid(), rand(), p))
+ID 1: 0.686332 5
+    From worker 4:  ID 4: 0.107924 5
+    From worker 5:  ID 5: 0.136019 5
+    From worker 2:  ID 2: 0.145561 5
+    From worker 3:  ID 3: 0.670885 5</code></pre>
+<h1 id="dropbox-example">Dropbox example</h1>
+<p>You can open your dropbox account directly in a web browser on engaging in x2go.</p>
+<p>For commandline access, this requires creating a Dropbox app following these <a href="http://xmodulo.com/access-dropbox-command-line-linux.html">instructions</a>. With this program you can download and upload specific files or folders and list contents of folders but it does not auto-sync.</p>
+<p>Alternatively, you can install the Dropbox daemon program and run it in your account to synchronize a local folder. Instructions are at the <a href="http://www.dropboxwiki.com/tips-and-tricks/install-dropbox-in-an-entirely-text-based-linux-environment">dropbox wiki</a>.</p>
+<h1 id="more-info">More info</h1>
+<ul>
+<li>gists of examples in these demos and other recipes in this public gists space: <a href="https://gist.github.com/jcwright77" class="uri">https://gist.github.com/jcwright77</a>
+<ul>
+<li><a href="https://gist.github.com/jcwright77/a5e1d66886bc17b0f7936466739cc287">PI serial and parallel programs</a></li>
+<li><a href="https://gist.github.com/jcwright77/4c64088a67868ef2ecf31319898f0730">example slurm batch job</a></li>
+</ul></li>
+<li>sloan engaging documentation at <a href="https://wikis.mit.edu/confluence/display/sloanrc/Engaging%2BPlatform">&lt;https://wikis.mit.edu/confluence/display/sloanrc/Engaging+Platform&gt;</a><br />
+requires MIT certificates. Info on engaging usage in general<br />
+as well as custom Sloan tools and modules.</li>
+<li>PSFC engaging info and local account request <a href="http://computers.psfc.mit.edu/cluster" class="uri">http://computers.psfc.mit.edu/cluster</a></li>
+<li>Harvard info on a similar system at MGHPCC <a href="https://rc.fas.harvard.edu/resources/running-jobs/" class="uri">https://rc.fas.harvard.edu/resources/running-jobs/</a></li>
+</ul>
