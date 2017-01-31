@@ -279,6 +279,11 @@ matlab #for gui
 matlab -nodesktop -nosplash # for commandine
 ```
 
+# Dropbox example
+  You can open your dropbox account directly in a webbrowser on engaging in x2go.
+  
+  For commandline access, this requires creating a Dropbox app following these [instructions](http://www.dropboxwiki.com/tips-and-tricks/install-dropbox-in-an-entirely-text-based-linux-environment).
+  
 
 # More info
 
