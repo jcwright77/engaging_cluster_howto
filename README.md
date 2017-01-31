@@ -253,7 +253,7 @@ mpirun ./cpi
 # Other slurm scripts
    - Serial jobs. Specificy one node and one core. No need for `mpirun` commmand. May specify memory requirement with `#SBATCH --mem X` to ensure sufficient memory for large jobs.
    
-```
+```sh
 #!/bin/bash
 #SBATCH -N 1
 #SBATCH -n 1
@@ -271,7 +271,7 @@ mpirun ./cpi
   - On engaging there are two main compilers supported, `gcc/gfortan (4.9.4, 5.4.0, 6.2.0)` and `intel  17`.
   - to compile, you would load either gcc or intel modules. Optionally load the associated `MPI` library if compiling parallel programs. Using the mpi compiler command (`mpiifort, mpiicc, mpicc`, etc) automatically links in the required `MPI` libraries.
   - fortran
-    ```
+    ```sh
     module load intel
     module load impi #for parallel support
     ifort -o myprog myprog.f/f90/F90/F
@@ -280,8 +280,13 @@ mpirun ./cpi
     ```
     
   - C
-    ``
-    module load 
+    ```sh
+    module load gcc
+    module load  mpich/ge/gcc/64/3.1 # for parallel support
+    gcc -o myprog myprog.c
+    mpicc -o myprog myprog.c/cc #for parallel compilation
+    ```
+    
 #   Other trivia
   -   you can only ssh to a node if you have a job using it.
     
@@ -308,7 +313,7 @@ The following are not yet present explicitly in the slide deck.
 
 # Log in using x2go
 x2go uses your ssh keys to give you a remote desktop on the engaging cluster. This desktop is also persistent so you close a session and return to it later, even on another device.
- <img  src="x2go.png" />
+ <img  src="x2go.png" width=600 align='center' />
 
 # Running a serial and then parallel program from github
 
