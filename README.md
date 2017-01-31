@@ -65,6 +65,12 @@ your ssh public key.
     support. IS&T is currently providing release 47. You
     can get the latest release from the [vendor](http://www.starnet.com/xwin32/).
 
+# What is an ssh key?
+
+- similar to your MIT certificates but you have two parts.
+   + public key part : eg `id_rsa_user.pub`
+   + private key part : eg `id_rsa_user`
+   
 # Working with the file system
 
 -   nfs storage. Long term inexpensive storage, expandable.
@@ -101,6 +107,7 @@ your ssh public key.
     <img  src="winscp_ssh.jpg" width="300"/>
     - SecureCRT (windows) : **Recommended.** supports file transfers with a session. type `rz <RETURN>` to bring up a dialog to upload files. Can also drag-and-drop! Select Z-modem transfer in both cases. `sz <args>` to transer files from engaging to your desktop.
        <img  src="secure_crt_key.png" width="300"/>
+       
 # Other methods (not recommended at this time)
     
     -   cifs (windows): Not available at this time. possible but not up as a service. brings in
@@ -267,7 +274,7 @@ mpirun ./cpi
 -   julia
 
 # Log in using x2go
-x2go uses your ssh keys to give you a remote desktop on the engaging cluster.
+x2go uses your ssh keys to give you a remote desktop on the engaging cluster. This desktop is also persistent so you close a session and return to it later, even on another device.
  <img  src="x2go.png" />
 
 # Running a serial and then parallel program from github
@@ -276,13 +283,16 @@ x2go uses your ssh keys to give you a remote desktop on the engaging cluster.
 ```
 module load mit/matlab
 matlab #for gui
-matlab -nodesktop -nosplash # for commandine
+matlab -nodesktop -nosplash # for commandline
+matlab -nodesktop -nosplash -nodisplay -r "run('/home/user/rest/of/path/mfile.m');" # for a non-interative process, eg a batch script
 ```
 
 # Dropbox example
-  You can open your dropbox account directly in a webbrowser on engaging in x2go.
+  You can open your dropbox account directly in a web browser on engaging in x2go.
   
-  For commandline access, this requires creating a Dropbox app following these [instructions](http://www.dropboxwiki.com/tips-and-tricks/install-dropbox-in-an-entirely-text-based-linux-environment).
+  For commandline access, this requires creating a Dropbox app following these [instructions](http://xmodulo.com/access-dropbox-command-line-linux.html). With this program you can download and upload specific files or folders and list contents of folders but it does not auto-sync.
+  
+  Alternatively, you can install the Dropbox daemon program and run it in your account to synchronize a local folder. Instructions are at the [dropbox wiki](http://www.dropboxwiki.com/tips-and-tricks/install-dropbox-in-an-entirely-text-based-linux-environment).
   
 
 # More info
