@@ -68,8 +68,13 @@ your ssh public key.
 # What is an ssh key?
 
 - similar to your MIT certificates but you have two parts.
-   + public key part : eg `id_rsa_user.pub`
-   + private key part : eg `id_rsa_user`
+   + public key part : eg `id_rsa_user.pub`. Linux permissions `chmod 700 id_rsa_user.pub` in `$HOME/.ssh` directory
+   
+     This is the key that needs to be on the destination machine. engaging signup does this for you.
+     
+   + private key part : eg `id_rsa_user`.Linux permissions `chmod 600 id_rsa_user` in `$HOME/.ssh` directory
+      
+     This is the key you need on your local machine. On linux in your .ssh directory or specified directly with `ssh -i`. For gui interfaces on windows, this is the key your provide when setting up a session or preparing a key for putty with puttygen.
    
 # Working with the file system
 
@@ -286,6 +291,34 @@ matlab #for gui
 matlab -nodesktop -nosplash # for commandline
 matlab -nodesktop -nosplash -nodisplay -r "run('/home/user/rest/of/path/mfile.m');" # for a non-interative process, eg a batch script
 ```
+
+# julia parallel example
+[Julia](julialang.org) is a parallel interpreted language developed at MIT.
+```
+#load julia
+module load engaging/julia
+
+#request a node
+srun -N 1 -n 32 -p sched_mit_nse --time=1:00:00 --x11=first --pty /bin/bash
+
+#start julia
+julia -j 4
+julia> nprocs()
+5
+julia> workers()                           # Identifiers for the worker processes.
+4-element Array{Int64,1}:
+ 2
+ 3
+ 4
+ 5
+@everywhere println(@sprintf("ID %d: %f %d", myid(), rand(), p))
+ID 1: 0.686332 5
+	From worker 4:	ID 4: 0.107924 5
+	From worker 5:	ID 5: 0.136019 5
+	From worker 2:	ID 2: 0.145561 5
+	From worker 3:	ID 3: 0.670885 5
+```
+
 
 # Dropbox example
   You can open your dropbox account directly in a web browser on engaging in x2go.
