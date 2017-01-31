@@ -1,6 +1,12 @@
 # engaging_cluster_howto
 A brief introduction to the engaging cluster for the NSE and PSFC groups. Assorted recipes and gists.
 
+
+  These slides, related source code and recipes may be found at
+  github repository https://github.com/jcwright77/engaging_cluster_howto.git 
+
+The author may be contacted at `jcwright@mit.edu`.
+
 # Abstract
 
 <img style="float: left; width:300px;" src="dt-common-streams-streamserver-cls_.jpg" width="300" align="left"/>
@@ -22,19 +28,16 @@ covered including how to log in, how to bring up remote
 applications, using git, compiling, runnning jobs in the batch
 system.
 
-  These slides, related source code and recipes may be found at
-  github repository https://github.com/jcwright77/engaging_cluster_howto.git 
-
-The author may be contacted at `jcwright@mit.edu`.
-
 Administrative questions should be directect to `engaging-admin@techsquare.com`
 
 # The engaging system and the nse and psfc nodes
 <img style="float: left; width:300px;" src="MGHPCC_DSC00498.JPG" width="300" align="right"/>
 -   100+32+4 nodes, 4352 cores
     Centos 7 , 2x16 cores Intel Xeon 2.1 GHz, 128 GB RAM
+    
 -   Nodes available in the `sched_any_quicktest` partition
     Centos 6 ,2x8 cores Intel Xeon 2.0 GHz, 64 GB RAM
+    
 -   The remaining system nodes run Centos 6 and have 16 cores per node.
 
 
