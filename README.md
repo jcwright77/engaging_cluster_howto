@@ -56,8 +56,7 @@ your ssh public key.
 -   ssh (all): ssh is included in linux and osx distributions. 
     
     It is available in the bash shell under Windows 10 after
-    enabling WSL, but in beta and seems to only support DSS(.dsa)
-    keys presently (engaging issues rsa keys). 
+    enabling WSL, but in beta and requires several steps to install.
     
     You can do X11 forwarding for remote GUI usage. X11 usage requires
     XQuartz under OSX or [X-Win32](http://kb.mit.edu/confluence/pages/viewpage.action?pageId%3D148603332) under Windows.
