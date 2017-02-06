@@ -63,7 +63,7 @@ your ssh public key.
 
 -   **[SecureCRT](http://kb.mit.edu/confluence/display/istcontrib/SecureCRT%2B%2Band%2BSecureFX%2B%2Bfor%2BWindows%2B-%2BInstallation%2BInstructions) (windows):** Windows ssh terminal with port forwarding
 
--   **[x2go](http://wiki.x2go.org/doku.php) (all):** remote desktop access
+-   **[x2go](http://wiki.x2go.org/doku.php) (all):** remote desktop access. Not all desktops are supported on engaging, try 'XFCE'
 
 -   **[putty](www.putty.org):** ssh terminal program for windows. Requires transformation of your private key to a `PPK` format using the puttygen program.
 
@@ -131,7 +131,7 @@ your ssh public key.
     -   cifs (windows): Not available at this time. possible but not up as a service. brings in
         username and domain mapping issues.
     
-    -   x2go (all platforms): Not recommended at this time for file transfers. buggy, requires `fuse` group membership on server.
+    -   x2go (all platforms): Not recommended at this time for file transfers. buggy for file transfers, requires `fuse` group membership on server.
     
     -   bash under windows (WSL available with windows 10): for power users,
         enables scp, sshfs. Requires activation of developer mode.
@@ -297,12 +297,16 @@ mpirun ./cpi
 # Demos
 
 -   Log in using x2go
+
     Uses ssh key and passphrase
 -   Retrieve demo script and program sources from github, edit and run it.
+
     Uses git, vim or emacs or gedit, slurm batch system, c and
     fortran compilers. [gist](https://gist.github.com/jcwright77/a5e1d66886bc17b0f7936466739cc287)
 -   matlab
 -   Dropbox
+
+    retrieve and store files from your Dropbox
 -   julia
 
 The following are not yet present explicitly in the slide deck.
@@ -314,7 +318,7 @@ The following are not yet present explicitly in the slide deck.
 
 
 # Log in using x2go
-x2go uses your ssh keys to give you a remote desktop on the engaging cluster. This desktop is also persistent so you close a session and return to it later, even on another device.
+x2go uses your ssh keys to give you a remote desktop on the engaging cluster. This desktop is also persistent so you close a session and return to it later, even on another device. Select desktop choice 'XFCE' when setting up a connection.
  <img  src="x2go.png" width=600 align='center' />
 
 # Running a serial and then parallel program from github
