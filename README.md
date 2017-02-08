@@ -12,7 +12,7 @@ The author may be contacted at `jcwright@mit.edu`.
 <img style="float: left; width:300px;" src="dt-common-streams-streamserver-cls_.jpg" width="300" align="left"/>
 The Massachusetts Green Energy High Performance Computing Center
 (MGHPCC) in Holyoke, MA is 100 miles from MIT campus connected
-by formerly dark fiber (10Gb). Completed in November 2012, the 90, 000 square
+by formerly dark fiber (100Gb). Completed in November 2012, the 90, 000 square
 foot, 15 megawatt facility is located on an 8.6 acre former
 industrial site just a few blocks from City Hall. University
 partners include B.U., NorthEaster, Harvard, UMass and MIT.
@@ -92,7 +92,7 @@ your ssh public key.
 -   nfs storage. Long term inexpensive storage, expandable.
     -   Group specific, eg:
         
-        `/net/eofdata-data005/psfclab001/<username>` 50 TB
+        `/net/eofe-data005/psfclab001/<username>` 50 TB
         
         This volume is automounted so you have to `cd` into it
         explicitly to see it.
