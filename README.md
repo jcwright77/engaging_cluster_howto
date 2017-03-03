@@ -152,7 +152,7 @@ module are found.
 
 Module names follow a convention of `software/version`
 ```
-[jcwright@eofe7 ~]$ module use /home/software/psfc/modulefiles/
+[jcwright@eofe7 ~]$ module use /home/software/psfc/modulefiles #enable psfc specific modules
 [jcwright@eofe7 ~]$ module avail
 
 ---------------------------------- /home/software/psfc/modulefiles/ ------------------------------------
@@ -203,7 +203,7 @@ user's own home directory for managing different builds of your own software or 
   -   Getting an interactive job, one node
     
         `srun -p sb.q -I -N 1 -c 1 --pty -t 0-00:05 /bin/bash`
-        where `sb.q` is the partition you want to use. Note quicktest has a 15min limit.
+        where `sb.q` is the partition you want to use. Note quicktest has a 15min limit. `-N "num nodes" -c "cores-per-node"`
   -   Request 16 cores on a node
         `salloc -N 1 -n 16 -p sched_any_quicktest --time=0:15:00 --exclusive`
         
@@ -238,7 +238,7 @@ user's own home directory for managing different builds of your own software or 
 
 #load modules your job depends on. 
 #better here than in your $HOME/.bashrc to make debugging and requirements easier to track.
-#here we are using gcc under MPI mpich
+#here we are using gcc under MPI mpich, you may also use intel icc with intel impi
 module load mpich/ge/gcc/64/3.1
 
 #I like to echo the running environment
