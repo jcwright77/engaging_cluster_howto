@@ -193,7 +193,10 @@ user's own home directory for managing different builds of your own software or 
     - sinfo -a :: show all partition names, runtimes and available nodes
     - salloc :: request a set of nodes in a partition
       `salloc --gres=gpu:1 -N 1 -n 16 -p sched_system_all --time=1:00:00 --exclusive`
-    - srun :: obtain a job allocation
+      You must exit from an `salloc` session. `srun` and `mpirun` within an allocation will use the allocated cores automatically.
+      
+    - srun :: run a program on allocated processors, optionally, also requests the allocation if needed.
+    
     - sacct :: detailed information on usage
 
     
@@ -203,7 +206,11 @@ user's own home directory for managing different builds of your own software or 
   -   Getting an interactive job, one node
     
         `srun -p sb.q -I -N 1 -c 1 --pty -t 0-00:05 /bin/bash`
-        where `sb.q` is the partition you want to use. Note quicktest has a 15min limit. `-N "num nodes" -c "cores-per-node"`
+        where `sb.q` is the partition you want to use. Note quicktest has a 15min limit. `-N "num nodes" -c "cpus-per-task"`
+	
+	`srun -p  sched_mit_psfc  -I --tasks-per-node=4 -N 4  --pty -t 0-2:05 bash`
+	given an interactive job with 4 nodes x 4 cpus per node = 16 cores.
+	
   -   Request 16 cores on a node
         `salloc -N 1 -n 16 -p sched_any_quicktest --time=0:15:00 --exclusive`
         
