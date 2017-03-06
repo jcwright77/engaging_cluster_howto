@@ -13,7 +13,19 @@ The author may be contacted at `jcwright@mit.edu`.
 
 # How to load software packages
 
-# For more details and solutions, see the README.md file on github.
+# Getting help
 
- https://github.com/jcwright77/engaging_cluster_howto/blob/master/README.md 
+- For more details and solutions, see the README.md file on github.
 
+    https://github.com/jcwright77/engaging_cluster_howto/blob/master/README.md
+    
+- PSFC help page and account request form
+    http://computers.psfc.mit.edu
+
+- How do I compile this, do we have this library or program installed, etc:
+
+    email:engaging@psfc.mit.edu
+    
+- I think my account/this node/the file system is messed up:
+
+    email:engaging-admin@techsquare.com
