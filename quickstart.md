@@ -24,14 +24,15 @@ The author may be contacted at `jcwright@mit.edu`.
 
 -   home directory. Backed up with TSM at MIT.
     
-    `/home/<username>` 100 GB quota
+    `/home/username` 100 GB quota
 
 -   parallel filesystem.  Run your parallel codes here. Note the
     name. 
     
-    lustre : /nobackup1/<username> . 1 PetaByte of storage for engaging
+    lustre : /nobackup1/username . 1 PetaByte of storage for engaging
     
 # How to log in
+
 - Apply for an account under "MGHPCC info" at http://computers.psfc.mit.edu (form requires PSFC credentials). Our nodes are in the sched_mit_psfc partition.
 - An email from `engaging-admin@techsquare.com` will confirm your account when ready. Upon form submission your browser will download your private ssh key. (We will eventually automate this step for you in your cmodws acccounts.)
 - Use `ssh` (linux, macs), Putty/XWin-32/Secure-CRT (windows) to connect.
@@ -55,7 +56,41 @@ The author may be contacted at `jcwright@mit.edu`.
     
     - sacct :: detailed information on usage
 
-- Recipes
+# SLURM Recipes
+  -   Start a job
+  
+        sbatch job.slurm
+  
+	job.slurm:
+```
+#!/bin/bash
+# Number of nodes
+#SBATCH -N 32
+# Number of processor core (32*32=1024, psfc, mit and emiliob nodes have 32 cores per node)
+#SBATCH -n 1024
+# specify how long your job needs. Be HONEST, it affects how long the job may wait for its turn.
+#SBATCH --time=0:04:00
+# which partition or queue the jobs runs in
+#SBATCH -p sched_mit_psfc
+#customize the name of the stderr/stdout file. %j is the job number
+#SBATCH -o cpi_nse-%j.out
+
+#load default system modules
+. /etc/profile.d/modules.sh
+
+#load modules your job depends on. 
+module purge #full control over environment
+module load intel
+module load impi
+
+#I like to echo the running environment
+env
+
+#Finally, the command to execute. 
+#The job starts in the directory it was submitted from.
+
+mpirun ./fpi
+```
   -   Getting an interactive job
     
         `srun -p sched_mit_psfc -I -N 1 -c 1 --pty -t 0-00:05 /bin/bash`
@@ -110,10 +145,14 @@ psfc/fftw/intel17/2.1.5     psfc/python/3.5-modules
 psfc/hypre/2.11.1           psfc/totalview/2016.07.22
 psfc/metis/intel-17/5.1.0
 ---------------------------------- /home/software/modulefiles ------------------------------------------
-foo/1.0       gcc/4.9.4     gcc/5.4.0     gcc/6.2.0     intel/2017-01 R/3.3.1
 ...
 ```
-
++ Setup for compiling with intel
+```
+module load intel
+module load impi
+module load psfc/mkl
+```
 # Getting help
 
 - For more details and solutions, see the README.md file on github.
