@@ -52,6 +52,7 @@ select mit\_nse, mit\_emilio\_b, or mit\_psfc group as appropriate. Follow instr
 your ssh public key.
 
 # Logging in.
+All logins should be to eofe7.mit.edu
 
 -   ssh (all): ssh is included in linux and osx distributions. 
     
