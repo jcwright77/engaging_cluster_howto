@@ -93,21 +93,26 @@ mpirun ./fpi
 ```
   -   Getting an interactive job
     
-        `srun -p sched_mit_psfc -I -N 1 -c 1 --pty -t 0-00:05 /bin/bash`
-         `-N "num nodes" -c "cpus-per-task"`
+        srun -p sched_mit_psfc -I -N 1 -c 1 --pty -t 0-00:05 /bin/bash
 	
-      	`srun -p  sched_mit_psfc  -I --tasks-per-node=4 -N 4  --pty -t 0-2:05 bash`
+        # flags: -N "num nodes" -c "cpus-per-task"
+	
+      	srun -p  sched_mit_psfc  -I --tasks-per-node=4 -N 4  --pty -t 0-2:05 bash
+	
         	gives an interactive job with 4 nodes x 4 cpus per node = 16 cores.
 	
   -   Request 16 cores on a node
-        `salloc -N 1 -n 16 -p sched_any_quicktest --time=0:15:00 --exclusive`
+  
+        salloc -N 1 -n 16 -p sched_any_quicktest --time=0:15:00 --exclusive
         
   -   Request a specific node, 32 cores, and forward X11 for remote display
         #x11 forwarding to a specific node, may take a moment to first load
-        `srun -w node552 -N 1 -n 32 -p sched_mit_nse --time=1:00:00 --x11=first --pty /bin/bash`
+	
+        srun -w node552 -N 1 -n 32 -p sched_mit_nse --time=1:00:00 --x11=first --pty /bin/bash
         
   - How much memory is or did my job use
-         `sacct -o MaxRSS -j JOBID`
+  
+        sacct -o MaxRSS -j JOBID
 
 # How to load software packages
 Finding software with Environment Modules
