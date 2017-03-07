@@ -32,7 +32,7 @@ The author may be contacted at `jcwright@mit.edu`.
     lustre : /nobackup1/username . 1 PetaByte of storage for engaging
     
 # How to log in
-
+- log in to `eofe7.mit.edu`
 - Apply for an account under "MGHPCC info" at http://computers.psfc.mit.edu (form requires PSFC credentials). Our nodes are in the sched_mit_psfc partition.
 - An email from `engaging-admin@techsquare.com` will confirm your account when ready. Upon form submission your browser will download your private ssh key. (We will eventually automate this step for you in your cmodws acccounts.)
 - Use `ssh` (linux, macs), Putty/XWin-32/Secure-CRT (windows) to connect.
