@@ -134,6 +134,7 @@ Module names follow a convention of `software/version`
 ```
 [jcwright@eofe7 ~]$ module use /home/software/psfc/modulefiles #enable psfc specific modules
 [jcwright@eofe7 ~]$ module add psfc/config 
+[jcwright@eofe7 ~]$ module avail
 
 ---------------------------------- /home/software/psfc/modulefiles/ ------------------------------------
 ----------------------- /home/software/psfc/modulefiles ------------------------
