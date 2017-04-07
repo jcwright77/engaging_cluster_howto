@@ -181,6 +181,9 @@ user's own home directory for managing different builds of your own software or 
     Partitions are what job queues are called in
     SLURM. The partitions for the NSE and the PSFC are: 
     - `sched_mit_psfc`
+       Has Quality of Servive (QoS), psfc_24h, for 24 hr runs
+       
+       `sbatch --qos psfc_24h`
     - `sched_mit_nse`
     - `sched_mit_emiliob`
 
