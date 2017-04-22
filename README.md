@@ -196,8 +196,8 @@ user's own home directory for managing different builds of your own software or 
     - scontrol show jobid `#` :: info on job
     - sinfo -a :: show all partition names, runtimes and available nodes
     - salloc :: request a set of nodes in a partition
-      `salloc --gres=gpu:1 -N 1 -n 16 -p sched_system_all --time=1:00:00 --exclusive`
-      You must exit from an `salloc` session. `srun` and `mpirun` within an allocation will use the allocated cores automatically.
+      `salloc --gres=gpu:1 -N 1 -n 16 -p sched_any --time=1:00:00 --exclusive`
+      You must exit from an `salloc` session. `srun` and `mpirun` within an allocation will use the allocated cores automatically. If logging in to eofe4/5, use partition `sched_any_quicktest`.
       
     - srun :: run a program on allocated processors, optionally, also requests the allocation if needed.
     
