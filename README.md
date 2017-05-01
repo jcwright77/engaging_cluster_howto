@@ -46,11 +46,12 @@ Administrative questions should be directect to `engaging-admin@techsquare.com`
 Account access is via ssh keys. You may provide your own or use
 an ssh key pair generated for you. To request and account, 
 
-visit <https://eofe1.mit.edu/request_account>
+visit https://eofe1.mit.edu/request_account
 
-select mit\_nse, mit\_emilio\_b, or mit\_psfc group as appropriate. Follow instructions to get or specify
+select mit\_nse or mit\_emilio\_b group as appropriate. Follow instructions to get or specify
 your ssh public key.
 
+PSFC users should visit https://www-internal.psfc.mit.edu/computers/engaging_request.php for an account. That for will set their group automatically to mit\_psfc. Note that this page requires PSFC login credentials.
 # Logging in.
 All logins should be to eofe7.mit.edu
 
