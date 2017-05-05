@@ -153,9 +153,10 @@ module are found.
 -   **`module use =path=`:** add a new search path to modules
 
 Module names follow a convention of `software/version`
+<img  src="new.png" width="30"/>
 ```
 [jcwright@eofe7 ~]$ module use /home/software/psfc/modulefiles #enable psfc specific modules
-[jcwright@eofe7 ~]$ module add psfc/config #basic setup for psfc users <img  src="new-png-image-16" width="30"/>
+[jcwright@eofe7 ~]$ module add psfc/config #basic setup for psfc users 
 [jcwright@eofe7 ~]$ module avail
 
 ---------------------------------- /home/software/psfc/modulefiles/ ------------------------------------
