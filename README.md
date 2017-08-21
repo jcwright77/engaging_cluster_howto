@@ -244,8 +244,10 @@ user's own home directory for managing different builds of your own software or 
 #SBATCH --time=0:04:00
 # which partition or queue the jobs runs in
 #SBATCH -p sched_mit_nse
-# specify maximum memory needed per cpu. NSE and PSFC nodes have 128 GB = 4 GB/core. default is 1 GB
-#SBATCH --mem-per-cpu=3900 #in MB
+```
+Specify maximum memory needed per cpu. NSE and PSFC nodes have 128 GB = 4 GB/core. default is 4 GB <img  src="new.png" width="30"/>
+```
+#SBATCH --mem-per-cpu=2000 #in MB
 #customize the name of the stderr/stdout file. %j is the job number
 #SBATCH -o cpi_nse-%j.out
 
