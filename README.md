@@ -94,7 +94,7 @@ All logins should be to eofe7.mit.edu
 -   nfs storage. Long term inexpensive storage, expandable.
     -   Group specific, eg:
         
-        `/net/eofe-data005/psfclab001/<username>` 50 TB
+        `/net/eofe-data005/psfclab001/<username>` 50 TB available, no quota.
         
         This volume is automounted so you have to `cd` into it
         explicitly to see it.
@@ -109,7 +109,7 @@ All logins should be to eofe7.mit.edu
 -   parallel filesystem.  Run your parallel codes here. Note the
     name. 
     
-    lustre : /nobackup1/<username> . 1 PetaByte of storage for engaging
+    lustre : /nobackup1/<username> . 1 PetaByte of storage for engaging, no quota for now, so monitor your usage.
     
 -   file transfers
     -   scp ('nix) : `scp localfile.txt <username>@eofe7.mit.edu:local/relative/path`
