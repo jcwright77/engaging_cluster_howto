@@ -350,7 +350,7 @@ matlab -nodesktop -nosplash -nodisplay -r "run('/home/user/rest/of/path/mfile.m'
 ```
 
 # julia parallel example
-[Julia](julialang.org) is a parallel interpreted language developed at MIT.
+[Julia](https://julialang.org/) is a parallel interpreted language developed at MIT.
 ```
 #load julia
 module load engaging/julia
