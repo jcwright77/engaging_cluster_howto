@@ -212,10 +212,10 @@ user's own home directory for managing different builds of your own software or 
 - Recipes
   -   Getting an interactive job, one node
     
-        `srun -p sb.q -I -N 1 -c 1 --pty -t 0-00:05 /bin/bash`
+        `srun -p sb.q -N 1 -c 1 --pty -t 0-00:05 /bin/bash`
         where `sb.q` is the partition you want to use. Note quicktest has a 15min limit. `-N "num nodes" -c "cpus-per-task"`
 	
-	`srun -p  sched_mit_psfc  -I --tasks-per-node=4 -N 4  --pty -t 0-2:05 bash`
+	`srun -p  sched_mit_psfc  --tasks-per-node=4 -N 4  --pty -t 0-2:05 bash`
 	given an interactive job with 4 nodes x 4 cpus per node = 16 cores.
 	
   -   Request 16 cores on a node
