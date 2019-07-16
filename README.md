@@ -321,6 +321,7 @@ mpirun ./cpi
 
     Uses git, vim or emacs or gedit, slurm batch system, c and
     fortran compilers. [gist](https://gist.github.com/jcwright77/a5e1d66886bc17b0f7936466739cc287)
+
 -   matlab
 -   Dropbox
 
@@ -338,6 +339,13 @@ The following are not yet present explicitly in the slide deck.
 # Log in using x2go
 x2go uses your ssh keys to give you a remote desktop on the engaging cluster. This desktop is also persistent so you close a session and return to it later, even on another device. Select desktop choice 'XFCE' when setting up a connection.
  <img  src="x2go.png" width=600 align='center' />
+ 
+# Connect using FastX <img  src="new.png" width="30"/>
+FastX gives you the remote desktop environment of x2go or nomachine right in your browser. Connect to 
+
+    https://eofe8.mit/edu:3443/auth/ssh
+    
+Upload your engaging private ssh key into your browswer following the instructions. It is only stored in the local cache. When done, you should be able to start a desktop session in your browser!
 
 # Running a serial and then parallel program from github
 
