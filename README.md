@@ -57,11 +57,10 @@ All logins should be to eofe7.mit.edu
 
 -   ssh (all): ssh is included in linux and osx distributions. 
     
-    It is available in the bash shell under Windows 10 after
-    enabling WSL, but in beta and requires several steps to install.
+    It is available in the bash shell under Windows 10 Server for Linux (WSL) in Microsoft Store.
     
     You can do X11 forwarding for remote GUI usage. X11 usage requires
-    XQuartz under OSX or [X-Win32](http://kb.mit.edu/confluence/pages/viewpage.action?pageId%3D148603332) under Windows.
+    XQuartz under OSX or [X-Win32](http://kb.mit.edu/confluence/pages/viewpage.action?pageId%3D148603332) under Windows. Also see MobaXterm that comes with an x-server built in for Windows.
 
 -   **[SecureCRT](http://kb.mit.edu/confluence/display/istcontrib/SecureCRT%2B%2Band%2BSecureFX%2B%2Bfor%2BWindows%2B-%2BInstallation%2BInstructions) (windows):** Windows ssh terminal with port forwarding
 
@@ -135,8 +134,7 @@ All logins should be to eofe7.mit.edu
     
     -   x2go (all platforms): Not recommended at this time for file transfers. buggy for file transfers, requires `fuse` group membership on server.
     
-    -   bash under windows (WSL available with windows 10): for power users,
-        enables scp, sshfs. Requires activation of developer mode.
+    -   bash under windows (WSL available with windows 10) in Microsoft Store.
 
 # Finding software with Environment Modules
 
