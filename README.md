@@ -172,7 +172,7 @@ user's own home directory for managing different builds of your own software or 
 
 -   SLURM
     
-    The Simple LinUx Resource Manager (SLURM) is
+    The Simple Linux Utility for Resource Manager (SLURM) is
     used on engaging to manage job submissions. If you used the NERSC systems you will be
     familiar with it.
     
