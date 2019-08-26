@@ -134,7 +134,6 @@ All logins should be to eofe7.mit.edu
     
     -   x2go (all platforms): Not recommended at this time for file transfers. buggy for file transfers, requires `fuse` group membership on server.
     
-    -   bash under windows (WSL available with windows 10) in Microsoft Store.
 
 # Finding software with Environment Modules
 
