@@ -340,7 +340,7 @@ x2go uses your ssh keys to give you a remote desktop on the engaging cluster. Th
 # Connect using FastX <img  src="new.png" width="30"/>
 FastX gives you the remote desktop environment of x2go or nomachine right in your browser. Connect to 
 
-    https://eofe8.mit/edu:3443/auth/ssh
+    https://eofe8.mit.edu  or https://eofe7.mit.edu 
     
 Upload your engaging private ssh key into your browswer following the instructions. It is only stored in the local cache. When done, you should be able to start a desktop session in your browser!
 
