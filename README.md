@@ -43,15 +43,10 @@ Administrative questions should be directect to `engaging-admin@techsquare.com`
 
 # Getting an account
 <img style="float: left; width:300px;" src="eofe1.jpg" width="300" align="left"/>
-Account access is via ssh keys. You may provide your own or use
-an ssh key pair generated for you. To request and account, 
+First register your kerberos ID with engaging by going to: https://engaging-ood.mit.edu/. You will need your MIT Kerberos credentials to access the cluster. After authenticating, you should be able to SSH to eofe7.mit.edu (the PSFC partition on the Engaging Cluster) with your MIT username and password.
 
-visit https://engaging-web.mit.edu/webapp/request_account
+PSFC users may then request access to the PSFC partitions by filling out the form at https://www1.psfc.mit.edu/computers/cluster/index.html .
 
-select mit\_nse or mit\_emilio\_b group as appropriate. Follow instructions to get or specify
-your ssh public key.
-
-PSFC users should visit https://www-internal.psfc.mit.edu/computers/engaging_request.php for an account. That for will set their group automatically to mit\_psfc. Note that this page requires PSFC login credentials.
 # Logging in.
 All logins should be to eofe7.mit.edu
 
